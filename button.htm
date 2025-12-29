@@ -6,115 +6,109 @@
   <title>Video Toggle Switch</title>
   <style>
     body{
-      margin:0;
-      height:100vh;
-      color:#fff;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      font-family:Arial, sans-serif;
+    margin:0;
+    height:100vh;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial, sans-serif;
 
-      background-image: url("bg.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+    background-image: url("bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     }
 
     #wrap{
-      position:relative;
-      width:90%;
-      max-width:800px;
-      aspect-ratio: 16 / 9;
+    position:relative;
+    width:90%;
+    max-width:800px;
+    aspect-ratio: 16 / 9;
     }
 
     video{
-      position:absolute;
-      top:0; left:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      border-radius:10px;
-      opacity:0;
-      transition:opacity .35s ease;
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:10px;
+    opacity:0;
+    transition:opacity .35s ease;
     }
 
     video.active{
-      opacity:1;
+    opacity:1;
     }
 
     #btn{
-      margin-top:18px;
-      padding:15px 30px;
-      background-color:#f89b69;
-      font-size:25px;
-      cursor:pointer;
-      border:0;
-      border-radius:10px;
-
-      transform: scale(1);
-      transform-origin: center center;
-      transition: transform 0.2s ease, background-color 0.2s ease;
-      font-family: "Verdana";
+    margin-top:18px;
+    padding:15px 30px;
+    background-color:#f89b69;
+    font-size:25px;
+    cursor:pointer;
+    border:0;
+    border-radius:10px;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    font-family: Verdana, sans-serif;
     }
 
-      #btn:hover{
-      background-color:#f98749;
-      cursor:pointer;
-      border:0;
-      border-radius:10px;
-      transform: scale(0.9);
+    #btn:hover{
+    background-color:#f98749;
+    transform: scale(0.9);
     }
 
-     #hint{
-      margin-top:10px;
-      opacity:.7;
-      font-size:14px;
+    #hint{
+    margin-top:10px;
+    opacity:.7;
+    font-size:14px;
     }
 
-      #intro{
-      opacity:1;
-      transition:none;
-      z-index:5;
+    #intro{
+    opacity:1;
+    z-index:5;
     }
 
-#controls{
-  display:flex;
-  gap:12px;
-  margin-top:18px;
-}
-
-#restartBtn{
-  position:absolute;
-  right:20px;
-  bottom:20px;
-  padding:15px 20px;
-  background-color:#fff7d9;
-  font-size:13px;
-  cursor:pointer;
-  border:0;
-  border-radius:10px;
-
-  z-index:10;
-
-  transform: scale(1);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-#restartBtn:hover{
-  background-color:#ffffff;
-  transform: scale(0.95);
-}
-
+    #controls{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
     }
+
+    #restartBtn{
+    position:absolute;
+    right:20px;
+    bottom:20px;
+    padding:15px 20px;
+    background-color:#fff7d9;
+    font-size:13px;
+    cursor:pointer;
+    border:0;
+    border-radius:10px;
+
+    z-index:10;
+
+    transform: scale(1);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    #restartBtn:hover{
+    background-color:#ffffff;
+    transform: scale(0.95);
+    }
+
   </style>
 </head>
 <body>
 
   <div id="wrap">
-    <video id="intro" src="anim.mp4" playsinline muted autoplay></video>
-    <video id="kus" src="KUS.mov" playsinline></video>
-    <video id="no"  src="NO.mov"  playsinline></video>
+    <video id="intro" src="anim.mp4" muted autoplay></video>
+    <video id="kus" src="KUS.mov"></video>
+    <video id="no"  src="NO.mov"></video>
     <audio id="musicKus" src="kus.mp3" loop preload="auto"></audio>
     <audio id="musicNo"  src="no.mp3"  loop preload="auto"></audio>
     <button id="restartBtn">Başa Sar</button>
@@ -129,24 +123,6 @@
   <script>
     const musicKus = document.getElementById("musicKus");
     const musicNo  = document.getElementById("musicNo");
-
-    let musicStarted = false;
-
-    function setMusic(which){
-  musicKus.pause(); 
-  musicNo.pause();
-
-  const a = (which === "kus") ? musicKus : musicNo;
-
-  const t = (which === "kus") ? kus.currentTime : noV.currentTime;
-  try { a.currentTime = t; } catch(e) {} 
-
-  a.volume = 0.9;
-
-  a.play().catch(()=>{});
-}
-
-
     const kus = document.getElementById("kus");
     const noV = document.getElementById("no");
     const btn = document.getElementById("btn");
@@ -155,19 +131,33 @@
 
     let active = "kus";
 
-    function init(){
-  btn.disabled = true;
+  function setMusic(which){
+    musicKus.pause(); 
+    musicNo.pause();
 
-  kus.muted = true;
-  noV.muted = true;
-  intro.muted = true;
+    const a = (which === "kus") ? musicKus : musicNo;
 
-  kus.classList.remove("active");
-  noV.classList.remove("active");
+    const t = (which === "kus") ? kus.currentTime : noV.currentTime;
 
-  intro.play();
+    if (Number.isFinite(t)) a.currentTime = t; 
 
-  intro.addEventListener("ended", () => {
+    a.volume = 0.9;
+    a.play();
+    }
+    
+  function init(){
+    btn.disabled = true;
+
+    kus.muted = true;
+    noV.muted = true;
+    intro.muted = true;
+
+    kus.classList.remove("active");
+    noV.classList.remove("active");
+
+    intro.play();
+
+    intro.addEventListener("ended", () => {
     intro.style.display = "none";
 
     active = "kus";
@@ -186,28 +176,26 @@
       noV.currentTime = t;
 
       if(active === "kus"){
-        kus.classList.remove("active");
-        noV.classList.add("active");
-        active = "no";
-        btn.textContent = "Diğer videoya geç";
+      kus.classList.remove("active");
+      noV.classList.add("active");
+      active = "no";
       }else{
-        noV.classList.remove("active");
-        kus.classList.add("active");
-        active = "kus";
-        btn.textContent = "Diğer videoya geç";
+      noV.classList.remove("active");
+      kus.classList.add("active");
+      active = "kus";
       }
 
-        setMusic(active);
+      setMusic(active);
       }
 
       function restart(){
-  kus.currentTime = 0;
-  noV.currentTime = 0;
+      kus.currentTime = 0;
+      noV.currentTime = 0;
 
   if(active === "kus"){
-    kus.play();
+      kus.play();
   }else{
-    noV.play();
+      noV.play();
   }
 
   musicKus.pause(); musicKus.currentTime = 0;
